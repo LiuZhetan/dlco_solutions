@@ -1,4 +1,4 @@
-module Alu #(parameter N)
+module Alu #(parameter N=4)
 (
     input en,
     input [2:0] op,
