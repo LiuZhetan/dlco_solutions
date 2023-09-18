@@ -1,11 +1,11 @@
 module HexSeg (
-    input [3:0] sw,
+    input [3:0] ledr,
     input dot,
     output [7:0] seg
 );
     reg [7:0] tmp;
-    always @(sw) begin
-        tmp = Binary2HexCode(sw,dot);
+    always @(ledr) begin
+        tmp = Binary2HexCode(ledr,dot);
     end
 
     assign seg = ~tmp;
