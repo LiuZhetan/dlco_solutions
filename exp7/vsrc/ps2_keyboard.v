@@ -37,11 +37,11 @@ module ps2_keyboard(clk,clrn,ps2_clk,ps2_data,data,
                 if ((buffer[0] == 0) &&  // start bit
                     (ps2_data)       &&  // stop bit
                     (^buffer[9:1])) begin      // odd  parity
+                    $display("keyboard receive %x", buffer[8:1]);
                     fifo[w_ptr] <= buffer[8:1];  // kbd scan code
                     w_ptr <= w_ptr+3'b1;
                     ready <= 1'b1;
                     overflow <= overflow | (r_ptr == (w_ptr + 3'b1));
-                    $display("receive %x", buffer[8:1]);
                 end
                 count <= 0;     // for next
               end else begin
@@ -53,4 +53,12 @@ module ps2_keyboard(clk,clrn,ps2_clk,ps2_data,data,
     end
     assign data = fifo[r_ptr]; //always set output data
 
+    // for debug
+    /*always @(r_ptr) begin
+        $display("=====Begin ps2_keyboard=====");
+        $display("fifo: %x, %x, %x, %x, %x, %x, %x, %x",
+        fifo[0],fifo[1],fifo[2],fifo[3],fifo[4],fifo[5],fifo[6],fifo[7]);
+        $display("r_ptr=%d,w_ptr=%d,read data=%x",r_ptr,w_ptr, fifo[r_ptr]);
+        $display("=====End ps2_keyboard=====");
+    end*/
 endmodule
